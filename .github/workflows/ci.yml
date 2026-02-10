@@ -1,4 +1,4 @@
-name: CI Workflow
+name: CI/CD Workflow
 
 on:
     push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
     build_and_test:
-        runs-on: ubuntu-latest #toma el proyecto lo crea en una maquina virtual y crea las pruebas 
+        runs-on: ubuntu-latest
         steps:
           - name: Clonar Repositorio
             uses: actions/checkout@v4
@@ -30,6 +30,40 @@ jobs:
           - name: Ejecutar Pruebas de Cobertura
             run: npm run test:coverage
 
-          - name: Simular despliegue
-            run: |
-              echo "Simulando despliegue la aplicación paso Lint y pruebas correctamente"
+          - name: Auditoría de Seguridad
+            run: npm audit --audit-level=moderate || true
+
+    deploy_preview:
+        name: Deploy Preview (PR)
+        if: github.event_name == 'pull_request'
+        runs-on: ubuntu-latest
+        needs: build_and_test
+        steps:
+          - name: Clonar Repositorio
+            uses: actions/checkout@v4
+
+          - name: Deploy to Firebase Hosting Preview
+            uses: FirebaseExtended/action-hosting-deploy@v0
+            with:
+              repoToken: '${{ secrets.GITHUB_TOKEN }}'
+              firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EXAMENPRUEBAS_10C5E }}'
+              projectId: examenpruebas-10c5e
+              expires: 7d
+
+    deploy_live:
+        name: Deploy Live (Main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        needs: build_and_test
+        steps:
+          - name: Clonar Repositorio
+            uses: actions/checkout@v4
+
+          - name: Deploy to Firebase Hosting Live
+            uses: FirebaseExtended/action-hosting-deploy@v0
+            with:
+              repoToken: '${{ secrets.GITHUB_TOKEN }}'
+              firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EXAMENPRUEBAS_10C5E }}'
+              projectId: examenpruebas-10c5e
+              channelId: live
+

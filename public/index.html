@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil — Notas & Estadística</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <header>
+            <h1>Perfil — Notas & Estadística</h1>
+            <p>Conjunta - Tercer Parcial</p>
+        </header>
+
+        <div>
+            <div>
+                <h2>Información Personal</h2>
+                <div>
+                    <strong>Nombre Completo:</strong> Gabriel Nicolas Vivanco Raza
+                </div>
+                <div>
+                    <strong>NRC:</strong> NRC 27854
+                </div>
+                <div>
+                    <strong>Correo Institucional:</strong> gnvivanco1@espe.edu.ec
+                </div>
+            </div>
+
+            <div>
+                <h3>Sobre mí</h3>
+                <p>
+                    Estudiantes de software de la espe, aficionado por el deporte sobre todo del futbol, hincha del gran trencito azul, me gusta la musica de cualquier tipo 
+                    he ayudado con la realizacion de los conciertos mas grandes de los ultimos años en este pais 
+                </p>
+            </div>
+
+            <div>
+                <h3>Registro Académico</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asignatura</th>
+                            <th>Calificación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Moviles</td>
+                            <td><span>17</span></td>
+                        </tr>
+                        <tr>
+                            <td>Basadas</td>
+                            <td><span>13</span></td>
+                        </tr>
+                        <tr>
+                            <td>Analisis</td>
+                            <td><span>14</span></td>
+                        </tr>
+                        <tr>
+                            <td>Pruebas</td>
+                            <td><span>15.00</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+# 1. Generar la service account key (si no la tienes)
+firebase login
+firebase projects:list
+firebase init hosting:github
