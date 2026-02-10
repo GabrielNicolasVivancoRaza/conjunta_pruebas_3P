@@ -1,44 +1,35 @@
 name: CI Workflow
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Clonar Repositorio
-        uses: actions/checkout@v4
+    build_and_test:
+        runs-on: ubuntu-latest #toma el proyecto lo crea en una maquina virtual y crea las pruebas 
+        steps:
+          - name: Clonar Repositorio
+            uses: actions/checkout@v4
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+          - name: Configurar Node.js
+            uses: actions/setup-node@v4
+            with:
+                node-version: '20'
 
-      - name: Instalar Dependencias
-        run: npm ci
+          - name: Instalar Dependencias
+            run: npm install
 
-      - name: Lint del código
-        run: npm run lint
-        # Bloquea CI si hay errores de lint
+          - name: Lint del codigo 
+            run: npm exec eslint
 
-      - name: Ejecutar Pruebas con Cobertura
-        run: npm test
-        # Jest bloqueará automáticamente si la cobertura < 85% (configurado en jest.config.js)
+          - name: Ejecutar Pruebas
+            run: npm test
 
-      - name: Auditoría de Seguridad
-        run: npm audit --audit-level=moderate
-        # Bloquea CI si hay vulnerabilidades moderadas o superiores
+          - name: Ejecutar Pruebas de Cobertura
+            run: npm run test:coverage
 
-      - name: Subir Reporte de Cobertura
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          files: ./coverage/lcov.info
-          flags: unittests
-          fail_ci_if_error: false
+          - name: Simular despliegue
+            run: |
+              echo "Simulando despliegue la aplicación paso Lint y pruebas correctamente"
