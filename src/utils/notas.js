@@ -74,4 +74,4 @@ function percentile(p, values) {
   return Number(value.toFixed(2));
 }
 
-module.exports = { toCelsius, toFahrenheit, movingAverages, calcWeightedGrade, percentile };
+module.exports = {calcWeightedGrade, percentile };
