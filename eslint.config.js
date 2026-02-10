@@ -7,7 +7,7 @@ export default [
         }, 
         rules: {
             semi: ['error', 'always'],
-            "no-unused-vars": "error",
+            'no-unused-vars': 'error',
             quotes: ['error', 'single']
         },
     }
