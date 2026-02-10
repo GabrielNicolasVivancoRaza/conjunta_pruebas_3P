@@ -1,0 +1,44 @@
+name: CI Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Clonar Repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar Dependencias
+        run: npm ci
+
+      - name: Lint del código
+        run: npm run lint
+        # Bloquea CI si hay errores de lint
+
+      - name: Ejecutar Pruebas con Cobertura
+        run: npm test
+        # Jest bloqueará automáticamente si la cobertura < 85% (configurado en jest.config.js)
+
+      - name: Auditoría de Seguridad
+        run: npm audit --audit-level=moderate
+        # Bloquea CI si hay vulnerabilidades moderadas o superiores
+
+      - name: Subir Reporte de Cobertura
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          fail_ci_if_error: false
